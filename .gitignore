@@ -1,0 +1,16 @@
+# bin
+*.bin
+*.txt
+
+#folders
+CaMa_in/
+CaMa_out/
+figures/
+
+# fotran excutables
+./src/bin2nc
+
+# netcdf files
+*.nc
+
+__pycache__/
