@@ -13,4 +13,10 @@ figures/
 # netcdf files
 *.nc
 
+# PBS output files
+*.o*
+
+# .pyc files
+*.pyc
+
 __pycache__/

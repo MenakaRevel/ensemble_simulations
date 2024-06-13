@@ -6,8 +6,8 @@
 # 2020/05/29
 #===========================
 #*** PBS setting when needed
-#PBS -q F20
-#PBS -l select=1:ncpus=20:mem=10gb
+#PBS -q E10
+#PBS -l select=1:ncpus=10:mem=186gb
 #PBS -j oe
 #PBS -m ea
 #PBS -M menaka@rainbow.iis.u-tokyo.ac.jp
@@ -29,11 +29,11 @@ which python
 
 #================================================
 # OpenMP Thread number
-NCPUS=20
+NCPUS=10
 export OMP_NUM_THREADS=$NCPUS
 
 USER=`whoami`
-
+#================================================
 # input settings
 syear=`python -c "import params; print (params.starttime()[0])"`
 smonth=`python -c "import params; print (params.starttime()[1])"`
@@ -53,16 +53,10 @@ mapname=`python -c "import params; print (params.mapname())"`
 expname=`python -c "import params; print (params.expname())"`
 runname=`python -c "import params; print (params.runname())"`
 ens_num=`python -c "import params; print (params.ens_mem())"`
-#--
-# N=`python src/calc_days.py $syear $smonth $sdate $eyear $emonth $edate`
-
-# # water surface elevation
-# varname="sfcelv"
-
 #=================================================
 # run make statistics
-echo "python ./src/stat_sfcelv.py $ssyear $eeyear $expname $runname $mapname $ens_num $NCPUS $ssyear $eeyear $outdir"
-python ./src/stat_sfcelv.py $ssyear $eeyear $expname $runname $mapname $ens_num $NCPUS $ssyear $eeyear $outdir
+echo "python ./src/stat_sfcelv.py $syear $eyear $expname $runname $mapname $ens_num $NCPUS $ssyear $eeyear $outdir"
+python ./src/stat_sfcelv.py $syear $eyear $expname $runname $mapname $ens_num $NCPUS $ssyear $eeyear $outdir
 
 #=================================================
 wait

@@ -28,11 +28,11 @@ import cal_stat as stat
 
 # argvs = sys.argv
 #=================
-syear=2015
-eyear=2020
+syear=2017
+eyear=2017
 #=================
 #ERA5
-ne=20 #pm.ens_mem()
+ne=50 #pm.ens_mem()
 output="bin"
 runname="ERA5"
 expname="CONUSERA5"
@@ -149,7 +149,7 @@ pnum=len(pname)
 sim=np.ctypeslib.as_ctypes(np.zeros([N,pnum,ne],np.float32))
 shared_array_sim  = sharedctypes.RawArray(sim._type_, sim)
 
-# for parallel calcualtion
+# for parallel calculation
 inputlist=[]
 for day in np.arange(start,last):
     target_dt=start_dt+datetime.timedelta(days=day)

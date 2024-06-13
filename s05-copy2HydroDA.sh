@@ -57,7 +57,7 @@ ens_num=`python -c "import params; print (params.ens_mem())"`
 # output directory -> HydroDA/dat
 odir="/cluster/data6/menaka/HydroDA/dat"
 #=================================================
-prefix="sfcelv_20"
+prefix="sfcelv_50"
 #=================================================
 # run make statistics
 echo "python ./src/copy2HydroDA.py $ssyear $eeyear $expname $runname $mapname $ens_num $NCPUS $odir $prefix"

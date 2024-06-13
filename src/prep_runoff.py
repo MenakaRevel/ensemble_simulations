@@ -718,9 +718,9 @@ def prep_runoff_ensemble(ne,runname,rundir,outdir,
     #=========================================================================
     A function to create runoff pertubations
     Several methods propsed
-    1. simple - random normal distribution spatial constant
-    2. spatial - spatially correlated random field
-    3. lognorm - spatially correlated random fields by log normal distribution as proposed by Nijssen and Lettenmaier (2004)
+    1. simple    - random normal distribution spatial constant
+    2. normal    - spatially correlated random field
+    3. lognormal - spatially correlated random fields by log normal distribution as proposed by Nijssen and Lettenmaier (2004)
     """
     #=================================
     # get runoff metadata
@@ -850,7 +850,7 @@ def prep_runoff_ensemble(ne,runname,rundir,outdir,
             ens_char="%03d"%(ens)
             yyyy1="%04d"%(syear)
             yyyy2="%04d"%(eyear)
-            # print (yyyy1,yyyy2,ens_char,runname,str(alpha),str(beta),str(E),rundir,outdir)
+            print (yyyy1,yyyy2,ens_char,runname,str(alpha),str(beta),str(E),rundir,outdir)
             inputlist.append([yyyy1,yyyy2,ens_char,runname,str(alpha),str(beta),str(E),str(tau_s),rundir,outdir])
         #==================================
         # do parallel
@@ -1234,6 +1234,10 @@ def get_runoff_metadata(runname):
         nx,ny=3600,1800
         prefix="Roff____"
         suffix=".sixmin"
+    if runname=="VIC_BC":
+        nx,ny=7200,3000
+        prefix="Roff____"
+        suffix=".5min"
     return nx,ny,prefix,suffix
 ######################################
 def val_distopen():
@@ -1283,7 +1287,8 @@ if __name__ == "__main__":
     diststd=float(sys.argv[12]) # standard deviation of the distribution
     ncpus=int(sys.argv[13]) # number of cpus
     CaMa_dir=sys.argv[14] # directory of CaMa-Flood
+    print ("Prepare ruunoff ----> "+method,syear,eyear)
     prep_runoff_ensemble(ne,runname,runoff_dir,out_dir,
                         method=method,syear=syear,eyear=eyear,beta=beta,E=E,
-                        aplha=alpha,distopen=distopen,diststd=diststd)
+                        alpha=alpha,distopen=distopen,diststd=diststd)
     

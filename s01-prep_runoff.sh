@@ -6,8 +6,8 @@
 # 2020/05/29
 #===========================
 #*** PBS setting when needed
-#PBS -q F20
-#PBS -l select=1:ncpus=20:mem=10gb
+#PBS -q F40
+#PBS -l select=1:ncpus=40:mem=10gb
 #PBS -j oe
 #PBS -m ea
 #PBS -M menaka@rainbow.iis.u-tokyo.ac.jp
@@ -29,7 +29,7 @@ which python
 
 #================================================
 # OpenMP Thread number
-NCPUS=20
+NCPUS=40
 export OMP_NUM_THREADS=$NCPUS
 
 USER=`whoami`
@@ -54,13 +54,28 @@ expname=`python -c "import params; print (params.expname())"`
 runname=`python -c "import params; print (params.runname())"`
 ens_num=`python -c "import params; print (params.ens_mem())"`
 #=================================================
+# Runoff
+rundir=`python -c "import params; print (params.rundir())"` #"/work/a04/julien/CaMa-Flood_v4/inp/isimip3a/runoff"
+
+# outdir
+outdir=`python -c "import params; print (params.outputdir())"` #"/work/a06/menaka/ensemble_simulations/CaMa_in"
+
+# Runoff pertubation setting
+method=`python -c "import params; print (params.pertub_method())"` #"lognorm" 
+beta=`python -c "import params; print (params.val_beta())"` 
+E=`python -c "import params; print (params.val_E())"` 
+alpha=`python -c "import params; print (params.val_alpha())"` 
+distopen=`python -c "import params; print (params.val_distopen())"`
+diststd=`python -c "import params; print (params.val_diststd())"`
+
 # prepare runoff pertubation
-rundir="/work/a02/menaka/ERA5/bin"
-outdir="/work/a06/menaka/ensemble_simulations/CaMa_in"
-python ./src/prep_runoff.py $syear $eyear $ens_num $runname $rundir $outdir $method $beta $E $alpha $distopen $diststd $NCPUS $CAMADIR
+echo python ./src/prep_runoff.py $ssyear $eeyear $ens_num $runname $rundir $outdir $method $beta $E $alpha $distopen $diststd $NCPUS $CAMADIR 
+python ./src/prep_runoff.py $ssyear $eeyear $ens_num $runname $rundir $outdir $method $beta $E $alpha $distopen $diststd $NCPUS $CAMADIR
 
 # link the folder to ./CaMa_in
 # need only of runoff was saved in another folder
+mkdir -p ./CaMa_in
+# rm -r ./CaMa_in/$runname
 ln -sf $outdir/$runname ./CaMa_in/$runname 
 
 wait

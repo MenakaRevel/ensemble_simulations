@@ -5,8 +5,8 @@
 #
 ########################
 #*** PBS seeting when needed
-#PBS -q F20
-#PBS -l select=1:ncpus=20:mem=40gb
+#PBS -q F40
+#PBS -l select=1:ncpus=40:mem=40gb
 #PBS -j oe
 #PBS -m bea
 #PBS -M menaka@rainbow.iis.u-tokyo.ac.jp
@@ -14,7 +14,7 @@
 #PBS -N Ensemble_Sim
 
 #
-NCPUS=10
+NCPUS=40
 export OMP_NUM_THREADS=$NCPUS
 
 # mkdir -p "/cluster/data7/menaka/ensemble_simulations"
@@ -22,10 +22,10 @@ export OMP_NUM_THREADS=$NCPUS
 # working directory
 # cd $PBS_O_WORKDIR
 # cd "/cluster/data6/menaka/ensemble_simulations"
-cd "/cluster/data7/menaka/ensemble_simulations"
-# cd "/work/a06/menaka/ensemble_simulations"
+# cd "/cluster/data7/menaka/ensemble_simulations"
+cd "/work/a06/menaka/ensemble_simulations"
 
-orgdir="/cluster/data6/menaka/ensemble_simulations"
+orgdir="/cluster/data7/menaka/ensemble_simulations"
 echo ${orgdir}
 
 # # copy source files
@@ -46,8 +46,8 @@ which python
 rm -rf ./run.py
 rm -rf ./main_code.py
 
-ln -sf ${orgdir}/src/run.py          ./run.py
-ln -sf ${orgdir}/src/main_code.py    ./main_code.py
+cp ${orgdir}/src/run.py          ./run.py
+cp ${orgdir}/src/main_code.py    ./main_code.py
 
 # run the simulations
 echo "running the simulations..."

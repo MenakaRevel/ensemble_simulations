@@ -6,7 +6,7 @@ import sys
 import os
 from multiprocessing import Pool
 
-import params as pm
+# import params as pm
 # copy mean and std to HydroDA
 #=============================
 def copy(inputlist):

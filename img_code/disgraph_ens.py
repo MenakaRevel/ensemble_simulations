@@ -28,15 +28,15 @@ import cal_stat as stat
 
 # argvs = sys.argv
 #=================
-syear=2015
-eyear=2020
-ne=20 #pm.ens_mem()
+syear=2016
+eyear=2019
+ne=50 #pm.ens_mem()
 output="bin"
-runname="ERA5"
-expname="CONUSERA5"
-mapname="conus_06min"
+runname="VIC_BC"#"ERA5"
+expname="CONUS50VIC_BC"#"CONUSERA5" #"AMZERA5" #
+mapname="conus_06min" #"amz_06min" #
 CaMa_dir="/cluster/data6/menaka/CaMa-Flood_v4"
-ncpus=20
+ncpus=40
 
 os.system("mkdir ../figures")
 os.system("mkdir ../figures/"+expname)
@@ -101,6 +101,7 @@ river=[]
 #--
 # rivernames = grdc.grdc_river_name()
 rivernames = ["MISSOURI","MISSISSIPPI","COLORADO"] #
+# rivernames = ["AMAZON"]
 for rivername in rivernames: 
     grdc_id,station_loc,x_list,y_list = grdc.get_grdc_loc_v396(rivername,mapname=mapname)
     print (rivername, station_loc, x_list,y_list)
@@ -175,7 +176,7 @@ def read_data(inputlist):
         # print ( fname )
         with nc.Dataset(ifile,"r") as cdf:
             simfile=cdf.variables["outflw"][:]
-    print ("-- reading simulation file:", ifile )
+    print ("-- reading simulation file:", ifile , "dt: ",dt, "nx: ", nx, "ny: ", ny)
     #-------------
     for point in np.arange(pnum):
         ix1,iy1,ix2,iy2=grdc.get_grdc_station_v396(pname[point])
@@ -186,14 +187,14 @@ def read_data(inputlist):
 
 #======================
 #--read data parallel--
-# p=Pool(ncpus)
-# res = list(p.map(read_data, inputlist))
-# sim = np.ctypeslib.as_array(shared_array_sim)
-# p.terminate()
+p=Pool(ncpus)
+res = list(p.map(read_data, inputlist))
+sim = np.ctypeslib.as_array(shared_array_sim)
+p.terminate()
 
 # for inpi in np.arange(inpn):
-res = map(read_data,inputlist)
-sim = np.ctypeslib.as_array(shared_array_sim)
+# res = map(read_data,inputlist)
+# sim = np.ctypeslib.as_array(shared_array_sim)
 #
 
 def make_fig(point):

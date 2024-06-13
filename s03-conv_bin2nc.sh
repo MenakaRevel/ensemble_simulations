@@ -7,8 +7,8 @@
 # 2020/05/29
 #===========================
 #*** PBS setting when needed
-#PBS -q F10
-#PBS -l select=1:ncpus=10:mem=10gb
+#PBS -q F40
+#PBS -l select=1:ncpus=40:mem=10gb
 #PBS -j oe
 #PBS -m ea
 #PBS -M menaka@rainbow.iis.u-tokyo.ac.jp
@@ -20,7 +20,7 @@
 cd "/cluster/data7/menaka/ensemble_simulations"
 #================================================
 # OpenMP Thread number
-NCPUS=10
+NCPUS=40
 export OMP_NUM_THREADS=$NCPUS
 
 USER=`whoami`

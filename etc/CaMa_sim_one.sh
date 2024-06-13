@@ -26,25 +26,25 @@
 #edited by Menaka@IIS for ensemble simulations 2020/07/16
 #================================================
 # input settings
-orgDIR=`pwd`
+orgDIR=`pwd`/..
 
-syear=$1
+syear=2000
 
-eyear=$2
+eyear=2019
 
-ens_num=$3
+ens_num=042
 
-CAMADIR=$4
+CAMADIR="/cluster/data6/menaka/CaMa-Flood_v410"
 
-cpunums=$5
+cpunums=20
 
-runname=$6
+runname="VIC_BC"
 
-mapname=$7
+mapname="conus_06min"
 
-expname=$8
+expname="CONUS50"
 
-spinup_flag=$9
+spinup_flag=0
 
 #e2oname=${10}
 #================================================
@@ -52,8 +52,8 @@ spinup_flag=$9
 
 #*** 0a. Set CaMa-Flood base directory
 BASE=$CAMADIR
-OUTBASE=`pwd`
-INBASE=`pwd`
+OUTBASE=`pwd`/..
+INBASE=`pwd`/..
 
 echo $BASE
 

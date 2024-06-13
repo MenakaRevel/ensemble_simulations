@@ -31,10 +31,10 @@ def mk_dir(sdir):
 #--
 def stats(inputlist):
   input_name=inputlist[0]
-  syear_out=int(inputlist[1])
-  eyear_out=int(inputlist[2])
   syear_in=int(inputlist[1])
   eyear_in=int(inputlist[2])
+  syear_out=int(inputlist[3])
+  eyear_out=int(inputlist[4])
   #mk_dir(pm.out_dir()+"/"+input_name)
   #--read netCDF4--
   # start_year=pm.start_year()
@@ -46,10 +46,10 @@ def stats(inputlist):
   options = dict(scale = 1, xdim='lon', ydim='lat', tdim='time')
   tdim, xdim, ydim = options['tdim'], options['xdim'], options['ydim']
   with xr.open_dataset(fname) as nc:
-    nc = nc.rename({xdim: 'lon', ydim: 'lat', tdim:'time'})
+    # nc = nc.rename({xdim: 'lon', ydim: 'lat', tdim:'time'})
     #
-    start='%02d-%02d-%04d'%(1,1,syear)
-    end='%02d-%02d-%04d'%(31,12,eyear)
+    start='%02d-%02d-%04d'%(1,1,syear_out)
+    end='%02d-%02d-%04d'%(31,12,eyear_out)
     sfcelv=nc.sfcelv.sel(time = slice(start,end)).load()
     sfcelv_mean=sfcelv.mean(axis=0)
     sfcelv_std=sfcelv.std(axis=0)
@@ -81,25 +81,27 @@ def spatial_slice(data,lllat,urlat,lllon,urlon,res=1.0):
   return data_region
 #================================================================
 syear  =int(sys.argv[1]) #pm.start_year()
-eyear  =int(sys.argv[2]) #pm.end_year()
+eyear  =int(sys.argv[2]) - 1#pm.end_year()
 expname=sys.argv[3] #pm.expname() #"AMZ050049B" #"AMZ000049O" #"AMZ050049" #"AMZCAL049" 
 runname=sys.argv[4] #pm.runname()
 mapname=sys.argv[5] #pm.mapname()
 ens_mem=int(sys.argv[6]) #pm.ens_mem()
 ncpus  =int(sys.argv[7]) #pm.para_nums()
-inyear1=int(sys.argv[8]) #pm.start_year()
-inyear2=int(sys.argv[9]) #pm.end_year()
+inyear =int(sys.argv[8]) #pm.start_year()
+outyear=int(sys.argv[9]) #pm.end_year()
 #================================================================
 syyyy="%04d"%(syear)
 eyyyy="%04d"%(eyear)
+syyyy_out="%04d"%(inyear)
+eyyyy_out="%04d"%(outyear)
 #================================================================
 inputlist=[]
 for ens in np.arange(1,ens_mem+1):
     inputname="%s%s%03d"%(expname,runname,ens)
     # print inputname
-    inputlist.append([inputname,syyyy,eyyyy])
+    inputlist.append([inputname,syyyy,eyyyy,syyyy_out,eyyyy_out])
 #==============
 p=Pool(ncpus)
 p.map(stats,inputlist)
 p.terminate()
-#map(stats,inputlist)
+# map(stats,inputlist)
