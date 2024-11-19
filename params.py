@@ -15,13 +15,13 @@ def expname():
     # return "AMZCAL049"
     # return "AMZ" #amazone
     # return "AMZCAL"
-    return "GLB" #global
-    # return "CONUS50" #conus
+    # return "GLB" #global
+    return "CONUS50" #conus
 
 def mapname():
     # return "amz_06min"
-    return "glb_15min"
-    # return "conus_06min"
+    # return "glb_15min"
+    return "conus_06min"
 
 # 2. time settings
 def timestep():
@@ -31,24 +31,24 @@ def starttime():
     return (2000,1,1) # start date: [year,month,date]
 
 def endtime():
-    return (2002,1,1) # end date: [year,month,date]
+    return (2021,1,1) # end date: [year,month,date]
                       # *note: this date is not included
 
 def start_year():
     return 2000
 
 def end_year():
-    return 2001
+    return 2020
 
 # 3. input runoff forcing
 def runname():
-    # return "ERA5"
-    return "isimip3a"
+    return "ERA5"
+    # return "isimip3a"
     # return "VIC_BC"
 
 def rundir():
-    return "/work/a04/julien/CaMa-Flood_v4/inp/isimip3a/runoff" #isimip3a
-    # return "/work/a02/menaka/ERA5/bin" #ERA5
+    # return "/work/a04/julien/CaMa-Flood_v4/inp/isimip3a/runoff" #isimip3a
+    return "/work/a02/menaka/ERA5/bin" #ERA5
     # return "/work/a06/menaka/VIC_BC/bin/"
 
 def inputdir():
@@ -124,9 +124,17 @@ def spinup_flag():
 def CaMa_dir():
     # return "/cluster/data6/menaka/CaMa-Flood_v395b_20191030"
     # return "/cluster/data6/menaka/CaMa-Flood_v396a_20200514"
-    return "/cluster/data6/menaka/CaMa-Flood_v410"
+    # return "/cluster/data6/menaka/CaMa-Flood_v410"
+    return "/cluster/data6/menaka/CaMa-Flood_v420"
     # directory of CaMa-Flood
     # indicate the directory of ./map or ./src and other folders
+
+def CaMa_opt():
+    return "all" # for bifurcation and dam on
+    # return "bif" # for bifurcation on
+    # return "dam" # for dam on
+    # return "levee" # for levee on
+    # for CaMa-Flood options
 
 def org_dir():
     # return "/cluster/data6/menaka/ensemble_simulations"

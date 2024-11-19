@@ -30,7 +30,7 @@ def copy(inputlist):
     # oname="/cluster/data6/menaka/HydroDA/dat/mean_sfcelv_49_"+runname+"_"+mapname+"_"+tagout+"_"+ens_char+".bin"
     # oname="/cluster/data6/menaka/HydroDA/dat/mean_cal_sfcelv_49_"+runname+"_"+mapname+"_"+tagout+"_"+ens_char+".bin"
     # oname="/cluster/data6/menaka/HydroDA/dat/mean_sfcelv_cal_"+runname+"_"+mapname+"_"+tagout+"_"+ens_char+".bin"
-    iname="./CaMa_out/"+input_name+"/sfcelv_mean"+tagout+".bin"
+    iname=idir+"/CaMa_out/"+input_name+"/sfcelv_mean"+tagout+".bin"
 
     # print ("cp "+iname+" "+oname)
     os.system("cp "+iname+" "+oname)
@@ -41,7 +41,7 @@ def copy(inputlist):
     # oname="/cluster/data6/menaka/HydroDA/dat/std_sfcelv_49_"+runname+"_"+mapname+"_"+tagout+"_"+ens_char+".bin"
     # oname="/cluster/data6/menaka/HydroDA/dat/std_cal_sfcelv_49_"+runname+"_"+mapname+"_"+tagout+"_"+ens_char+".bin"
     # oname="/cluster/data6/menaka/HydroDA/dat/std_sfcelv_cal_"+runname+"_"+mapname+"_"+tagout+"_"+ens_char+".bin"
-    iname="./CaMa_out/"+input_name+"/sfcelv_std"+tagout+".bin"
+    iname=idir+"/CaMa_out/"+input_name+"/sfcelv_std"+tagout+".bin"
 
     # print ("cp "+iname+" "+oname)
     os.system("cp "+iname+" "+oname)
@@ -57,7 +57,8 @@ mapname=sys.argv[5] #pm.mapname()
 ens_mem=int(sys.argv[6]) #pm.ens_mem()
 ncpus  =int(sys.argv[7]) #pm.para_nums()
 odir   =sys.argv[8] #pm.outdir()
-prefix =sys.argv[9] #"sfcelv"
+idir   =sys.argv[9] 
+prefix =sys.argv[10] #"sfcelv"
 #=============================
 inputlist=[]
 syyyy="%04d"%(syear) #2000)

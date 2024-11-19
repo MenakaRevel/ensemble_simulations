@@ -42,7 +42,7 @@ def stats(inputlist):
   tag="%04d-%04d"%(syear_in,eyear_in)
   tagout="%04d-%04d"%(syear_out,eyear_out)
   # sfcelv
-  fname="./CaMa_out/"+input_name+"/sfcelv"+tag+".nc"
+  fname=outdir+"/CaMa_out/"+input_name+"/sfcelv"+tag+".nc"
   options = dict(scale = 1, xdim='lon', ydim='lat', tdim='time')
   tdim, xdim, ydim = options['tdim'], options['xdim'], options['ydim']
   with xr.open_dataset(fname) as nc:
@@ -55,8 +55,8 @@ def stats(inputlist):
     sfcelv_std=sfcelv.std(axis=0)
     sfcelv_mean=sfcelv_mean.values
     sfcelv_std=sfcelv_std.values
-    sfcelv_mean.tofile("./CaMa_out/"+input_name+"/sfcelv_mean"+tagout+".bin")
-    sfcelv_std.tofile("./CaMa_out/"+input_name+"/sfcelv_std"+tagout+".bin")
+    sfcelv_mean.tofile(outdir+"/CaMa_out/"+input_name+"/sfcelv_mean"+tagout+".bin")
+    sfcelv_std.tofile(outdir+"/CaMa_out/"+input_name+"/sfcelv_std"+tagout+".bin")
     print (np.shape(sfcelv_mean))
   return 0
 #-----
@@ -89,6 +89,7 @@ ens_mem=int(sys.argv[6]) #pm.ens_mem()
 ncpus  =int(sys.argv[7]) #pm.para_nums()
 inyear =int(sys.argv[8]) #pm.start_year()
 outyear=int(sys.argv[9]) #pm.end_year()
+outdir =sys.argv[10]
 #================================================================
 syyyy="%04d"%(syear)
 eyyyy="%04d"%(eyear)

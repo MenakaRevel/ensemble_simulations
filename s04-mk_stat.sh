@@ -47,7 +47,7 @@ eeyear=`python -c "import params; print (params.end_year())"`
 echo $ssyear" to "$eeyear
 # names
 CAMADIR=`python -c "import params; print (params.CaMa_dir())"`
-outdir="./" #`python -c "import params; print (params.out_dir())"`
+outdir="/work/a06/menaka/ensemble_simulations" #"./" #`python -c "import params; print (params.out_dir())"`
 cpunums=`python -c "import params; print (params.cpu_nums())"`
 mapname=`python -c "import params; print (params.mapname())"`
 expname=`python -c "import params; print (params.expname())"`

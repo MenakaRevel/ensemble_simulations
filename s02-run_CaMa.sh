@@ -38,14 +38,17 @@ echo ${orgdir}
 source ~/.bashrc
 source ~/.bash_conda
 
-source activate pydef
+# source activate pydef
+source activate py38
 
 which python
 
 # link source codes
+rm -rf ./params.py
 rm -rf ./run.py
 rm -rf ./main_code.py
 
+cp ${orgdir}/params.py           ./params.py
 cp ${orgdir}/src/run.py          ./run.py
 cp ${orgdir}/src/main_code.py    ./main_code.py
 

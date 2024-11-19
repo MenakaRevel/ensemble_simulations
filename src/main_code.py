@@ -103,15 +103,16 @@ def simulation(inputlist):
     mapname =pm.mapname()
     expname =pm.expname()
     spinup  =pm.spinup_flag()
+    CaMa_opt=pm.CaMa_opt()
     # inputname=pm.inputdir()
     #---
     print ("=============== start simulation: "+ens_num+" ===============")
     print (syear+" "+eyear+" "+ens_num+" "+CaMa_dir+" "+str(cpunums)+" "+str(run_name))
     os.system("source "+dir0+"/src/CaMa_sim.sh "+syear+" "+eyear+" "+ens_num+" "+CaMa_dir
-    +" "+str(cpunums)+" "+str(run_name)+" "+mapname+" "+expname+" "+str(spinup))
+    +" "+str(cpunums)+" "+str(run_name)+" "+mapname+" "+expname+" "+str(spinup)+" "+CaMa_opt)
 ################################
 def one_day_loop(yyyy,mm,dd,day):
-    print "================================ start loop of "+yyyy+" "+mm+" "+dd+" ========================================"
+    print ("================================ start loop of "+yyyy+" "+mm+" "+dd+" ========================================")
     #
 #    # True Simulation ####################################################################
     if pm.run_flag() == 0 or pm.run_flag() == 2:
@@ -220,7 +221,7 @@ def spin_up(): #used
     dir2=pm.CaMa_dir()
     cpunums = pm.cpu_nums()
     yyyy = "%04d"%(pm.spinup_end_year())
-    print pm.spinup_mode()
+    print (pm.spinup_mode())
     if pm.spinup_mode()==3:
       return 0
 
@@ -239,7 +240,7 @@ def spin_up(): #used
     p.map(spinup_loop,inputlist)
     p.terminate()
 
-    print "======================= end spinup =========================="
+    print ("======================= end spinup ==========================")
 
     return 0
 ###########################
@@ -252,7 +253,7 @@ def spinup_loop(inputlist):
     cpunums=pm.cpu_nums()
     mode=pm.mode()
     run_name=pm.runname(mode)
-    print  "%s for %03d"%(loop,int(ens_num))
+    print  ("%s for %03d"%(loop,int(ens_num)))
     os.system("source src/spin_up.sh "+str(yyyy)+" "+str(loop)+" "+ens_num+" "+dir2+" "+str(cpunums)+" "+str(run_name))
     return 0
 ###########################
@@ -272,14 +273,14 @@ def one_day_sim(inputlist):
     bef_mm='%02d' %bef_dt.month
     bef_dd='%02d' %bef_dt.day
 
-    print "oneday loop for",yyyy,mm,dd,ens_num,looptype
+    print ("oneday loop for",yyyy,mm,dd,ens_num,looptype)
     dir2=pm.CaMa_dir()
     if looptype=="true":
         distopen="1.0"
     else:
         distopen=str(pm.distopen())
 
-    print yyyy+" "+mm+" "+dd+" "+ens_num+" "+dir2+" "+looptype
+    print (yyyy+" "+mm+" "+dd+" "+ens_num+" "+dir2+" "+looptype)
     cpunums = pm.cpu_nums()
     os.system("source src/oneday_sim.sh "+yyyy+" "+mm+" "+dd+" "+ens_num+" "+dir2+" "+looptype+" "+str(cpunums)+" "+str(run_name))
 
@@ -322,7 +323,7 @@ def copy_corrupted_restart(inputlist):
     fname="./CaMa_out/"+yyyy+mm+dd+"C"+numch+"/restart"+n_yyyy+n_mm+n_dd+".bin"
     #os.system("cp "+fname+" ./CaMa_in/restart/open/restart"+n_yyyy+n_mm+n_dd+"C"+numch+".bin")
     copy_stoonly(fname,"./CaMa_in/restart/open/restart"+n_yyyy+n_mm+n_dd+"C"+numch+".bin")
-    print "copy restart",n_yyyy,n_mm,n_dd,"C"+numch
+    print ("copy restart",n_yyyy,n_mm,n_dd,"C"+numch)
     return 0
 ###########################
 def copy_stoonly(iname,oname): # for CaMa_Flood v395b
@@ -342,7 +343,7 @@ def data_assim(yyyy,mm,dd,day): # new data assimilation function (2017-06-30)
     dir1=pm.CaMa_dir()+"/"
     thisday=datetime.date(int(yyyy),int(mm),int(dd))
     nxt_day=thisday+datetime.timedelta(days=1)
-    print '%02d'%(nxt_day.day)
+    print ('%02d'%(nxt_day.day))
     os.system("src/data_assim "+str(pm.assimN())+" "+str(pm.assimS())+" "+str(pm.assimW())+" "+str(pm.assimE())+" "+yyyy+mm+dd+" "+str('%02d'%SWOT_day(yyyy,mm,dd))+" "+str(pm.patch_size())+" "+str(pm.ens_mem())+" "+str(day)+" "+str('%04d'%(nxt_day.year)+'%02d'%(nxt_day.month)+'%02d'%(nxt_day.day))+" "+str(pm.err_expansion())+" "+dir1+" "+str(errrand)+" "+str(pm.ovs_err())+" "+str(pm.thersold()))
 #    os.system("src/data_assim "+str(pm.assimN())+" "+str(pm.assimS())+" "+str(pm.assimW())+" "+str(pm.assimE())+" "+yyyy+mm+dd+" "+str('%02d'%SWOT_day(yyyy,mm,dd))+" "+str(pm.patch_size())+" "+str(pm.ens_mem())+" "+str(day)+" "+str('%04d'%(nxt_day.year)+'%02d'%(nxt_day.month)+'%02d'%(nxt_day.day))+" "+str(pm.err_expansion())+" "+dir1+" "+str(errrand)+" "+str(pm.ovs_err()))
 #    os.system("src/data_assim_fld "+str(pm.assimN())+" "+str(pm.assimS())+" "+str(pm.assimW())+" "+str(pm.assimE())+" "+yyyy+mm+dd+" "+str('%02d'%SWOT_day(yyyy,mm,dd))+" "+str(pm.patch_size())+" "+str(pm.ens_mem())+" "+str(day)+" "+str('%04d'%(nxt_day.year)+'%02d'%(nxt_day.month)+'%02d'%(nxt_day.day))+" "+str(pm.err_expansion())+" "+dir1+" "+str(errrand)+" "+str(pm.ovs_err()))
@@ -365,7 +366,7 @@ def make_initial_restart(): # updated the name
     #os.system("cp ./CaMa_out/"+spinup_true+"/restart"+yyyy+mm+dd+".bin ./CaMa_in/restart/true/restart"+yyyy+mm+dd+"T000.bin")
     copy_stoonly("./CaMa_out/"+spinup_true+"/restart"+yyyy+mm+dd+".bin","./CaMa_in/restart/true/restart"+yyyy+mm+dd+"T000.bin")
 
-    print "cp ./CaMa_out/"+spinup_true+"/restart"+yyyy+mm+dd+".bin ./CaMa_in/restart/true/restart"+yyyy+mm+dd+"T000.bin"
+    print ("cp ./CaMa_out/"+spinup_true+"/restart"+yyyy+mm+dd+".bin ./CaMa_in/restart/true/restart"+yyyy+mm+dd+"T000.bin")
     for num in np.arange(1,pm.ens_mem()+1):
         numch='%03d'%num
         spinup_open="%04d%2d%02dC%03d"%(pm.spinup_end_year(),pm.spinup_end_month(),pm.spinup_end_date(),num) 
@@ -383,7 +384,7 @@ def make_initial_restart_one(): # updated the name
     spinup_true="%04d%2d%02dT000"%(pm.spinup_end_year(),pm.spinup_end_month(),pm.spinup_end_date())
     #os.system("cp ./CaMa_out/"+spinup_true+"/restart"+yyyy+mm+dd+".bin ./CaMa_in/restart/true/restart"+yyyy+mm+dd+"T000.bin")
     copy_stoonly("./CaMa_out/"+spinup_true+"/restart"+yyyy+mm+dd+".bin","./CaMa_in/restart/true/restart"+yyyy+mm+dd+"T000.bin")
-    print "cp ./CaMa_out/"+spinup_true+"/restart"+yyyy+mm+dd+".bin ./CaMa_in/restart/true/restart"+yyyy+mm+dd+"T000.bin"
+    print ("cp ./CaMa_out/"+spinup_true+"/restart"+yyyy+mm+dd+".bin ./CaMa_in/restart/true/restart"+yyyy+mm+dd+"T000.bin")
     spinup_open=spinup_true
     #spinup_open="%04d%2d%02dC%03d"%(pm.spinup_end_year(),pm.spinup_end_month(),pm.spinup_end_date(),1)
     for num in np.arange(1,pm.ens_mem()+1):
@@ -488,7 +489,7 @@ def compile_func(): #used
     os.system("ifort src/make_restart.f90 -o src/make_restart -O2 -assume byterecl -heap-arrays -nogen-interfaces -free -g -traceback  -lpthread -parallel")
     #os.system("ifort src/calc_stoerr.f90 -o src/calc_stoerr -O2 -assume byterecl")
     os.system("ifort src/make_rivout.f90 -o src/make_rivout -O2 -assume byterecl") 
-    print "compile data assimilation codes..."
+    print ("compile data assimilation codes...")
 #    os.system("source src/compileMKL.sh "+pm.MKLdir())
     os.system("ifort  src/make_corrupt_rivhgt.f90 -o src/make_corrupt_rivhgt -O3 -assume byterecl -heap-arrays -nogen-interfaces -free -mkl -mcmodel=large -shared-intel")
 #    os.system("ifort  src/data_assim.f90 -o src/data_assim -O3 -assume byterecl -heap-arrays 10 -nogen-interfaces -free -mkl -check bounds -g -fp-stack-check -g -traceback -lpthread -openmp")
@@ -578,9 +579,9 @@ def make_restart(inputlist):
     #       floodplain outflow, river depth, flood plain storage
 
     # built in hold
-    print "finish assimilating"
-    print "built in hold"
-    print "press enter"
+    print ("finish assimilating")
+    print ("built in hold")
+    print ("press enter")
 
     # get the date of one day before
     bef_y=odb.calc_odb(yyyy,mm,dd,"year")
@@ -600,10 +601,10 @@ def make_restart(inputlist):
     
     # calculate other variables from water storage
     dir1=pm.CaMa_dir()+"/"
-    print "dir1",dir1
+    print ("dir1",dir1)
     os.system("./src/make_restart "+yyyy+mm+dd+" "+yyyy_b+mm_b+dd_b+" "+yyyy_n+mm_n+dd_n+" "+loop+" "+dir1+" "+str(pm.ens_mem())+" "+numch)
 
-    print "finish restarting",numch
+    print ("finish restarting",numch)
 ###########################
 def make_rivout(inputlist):
     # new version
@@ -618,7 +619,7 @@ def make_rivout(inputlist):
    
     # calculate other variables from water storage
     dir1=pm.CaMa_dir()+"/"
-    print "dir1",dir1
+    print ("dir1",dir1)
     os.system("./src/make_rivout "+yyyy+mm+dd+" "+loop+" "+dir1+" "+str(pm.ens_mem())+" "+numch)
 
 ###########################
@@ -1139,7 +1140,7 @@ def make_corrpt_rivhgt():
     return 0
 ###########################
 def intial_assim_rivhgt():
-    print "initialize elevation"
+    print ("initialize elevation")
     for ens in np.arange(1,pm.ens_mem()+1):
       #shutil.copy(pm.CaMa_dir()+"/map/global_15min/rivhgt_%03dC.bin"%(ens),pm.CaMa_dir()+"/map/global_15min/rivhgt19910101_%03dA.bin"%(ens))
       shutil.copy(pm.CaMa_dir()+"/map/global_15min/rivhgt_%03dC.bin"%(ens),pm.CaMa_dir()+"/map/global_15min/rivhgt_%03dA.bin"%(ens))
@@ -1147,7 +1148,7 @@ def intial_assim_rivhgt():
     return 0
 ###########################
 def courrpt_rivhgt():
-    print "make_corrupt_rivhgt.f90"
+    print ("make_corrupt_rivhgt.f90")
     os.system("./src/make_corrupt_rivhgt "+str('%4d'%(pm.spinup_end_year()))+" "+str(pm.non_hgt)+" "+str(pm.ens_mem())+" "+pm.CaMa_dir())
     return 0
 ###########################
@@ -1190,9 +1191,9 @@ def make_corrupt_man():
   rivnum = np.fromfile(rivnum,np.int32).reshape(720,1440)
 #--
   corr_ens=np.ones([pm.manning_mem(),720,1440],np.float32)
-  print np.max(rivnum),np.shape(corr_ens)
+  print (np.max(rivnum),np.shape(corr_ens))
   for num in np.arange(1,np.max(rivnum)):
-    print num
+    print (num)
     index=np.where(rivnum==num)
     l=np.shape(index)[1]
     #--
@@ -1205,16 +1206,16 @@ def make_corrupt_man():
       f.write(line)
     f.close()
     # find covariances
-    print "/src/make_covariance "+str(num)+" "+str(l)+" "+str(pm.corruptman_std())+" "+pm.CaMa_dir()+"/"
+    print ("/src/make_covariance "+str(num)+" "+str(l)+" "+str(pm.corruptman_std())+" "+pm.CaMa_dir()+"/")
     os.system("./src/make_covariance "+str(num)+" "+str(l)+" "+str(pm.corruptman_std())+" "+pm.CaMa_dir()+"/")
     # multivariate covariance
-    print "multivariate covariance"
+    print ("multivariate covariance")
     mean=np.ones([l],np.float32)*pm.corruptman_base()
     covariance=np.fromfile("cov.bin",np.float32).reshape(l,l)
     corr_ens[:,index[0],index[1]]=multivariate_normal_sampler(mean,covariance,pm.manning_mem())
     #corr_ens[:,index[0],index[1]]=np.random.multivariate_normal(mean,covariance,pm.manning_mem())
    #--
-  print "make ensembles"
+  print ("make ensembles")
   for ens in np.arange(1,pm.manning_mem()+1):
     fname="CaMa_out/corruptman%03d.bin"%(ens)
     corr_ens[ens-1].tofile(fname) 
@@ -1228,9 +1229,9 @@ def make_corrlated_man():
   rivnum = np.fromfile(rivnum,np.int32).reshape(720,1440)
 #--
   corr_ens=np.ones([720,1440],np.float32)
-  print np.max(rivnum),np.shape(corr_ens)
+  print (np.max(rivnum),np.shape(corr_ens))
   for num in np.arange(1,np.max(rivnum)):
-    print num
+    print (num)
     index=np.where(rivnum==num)
     l=np.shape(index)[1]
     #--
@@ -1243,10 +1244,10 @@ def make_corrlated_man():
       f.write(line)
     f.close()
     # find covariances
-    print "/src/make_covariance "+str(num)+" "+str(l)+" "+str(pm.corruptman_std())+" "+pm.CaMa_dir()+"/"
+    print ("/src/make_covariance "+str(num)+" "+str(l)+" "+str(pm.corruptman_std())+" "+pm.CaMa_dir()+"/")
     os.system("./src/make_covariance "+str(num)+" "+str(l)+" "+str(pm.corruptman_std())+" "+pm.CaMa_dir()+"/")
     # calculate covariance
-    print "calculate covariance"
+    print ("calculate covariance")
     mean=np.ones([l],np.float32)*pm.corruptman_base()
     covariance=np.fromfile("cov.bin",np.float32).reshape(l,l)
     #--

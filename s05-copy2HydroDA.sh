@@ -20,10 +20,10 @@ cd "/cluster/data7/menaka/ensemble_simulations"
 
 #================================================
 # import virtual environment
-source ~/.bashrc
-source ~/.bash_conda
+# source ~/.bashrc
+# source ~/.bash_conda
 
-source activate pydef
+# source activate pydef
 
 which python
 
@@ -47,7 +47,7 @@ eeyear=`python -c "import params; print (params.end_year())"`
 echo $ssyear" to "$eeyear
 # names
 CAMADIR=`python -c "import params; print (params.CaMa_dir())"`
-outdir="./" #`python -c "import params; print (params.out_dir())"`
+outdir="/work/a06/menaka/ensemble_simulations" #"./" #`python -c "import params; print (params.out_dir())"`
 cpunums=`python -c "import params; print (params.cpu_nums())"`
 mapname=`python -c "import params; print (params.mapname())"`
 expname=`python -c "import params; print (params.expname())"`
@@ -57,13 +57,13 @@ ens_num=`python -c "import params; print (params.ens_mem())"`
 # output directory -> HydroDA/dat
 odir="/cluster/data6/menaka/HydroDA/dat"
 #=================================================
-prefix="sfcelv_50"
+prefix="sfcelv_dam_50"
 #=================================================
 # run make statistics
-echo "python ./src/copy2HydroDA.py $ssyear $eeyear $expname $runname $mapname $ens_num $NCPUS $odir $prefix"
-python ./src/copy2HydroDA.py $ssyear $eeyear $expname $runname $mapname $ens_num $NCPUS $odir $prefix
+echo "python ./src/copy2HydroDA.py $ssyear $eeyear $expname $runname $mapname $ens_num $NCPUS $odir $outdir $prefix"
+python ./src/copy2HydroDA.py $ssyear $eeyear $expname $runname $mapname $ens_num $NCPUS $odir $outdir $prefix
 
 #=================================================
 wait
 
-conda deactivate
+# conda deactivate
